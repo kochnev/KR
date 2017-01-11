@@ -1,60 +1,53 @@
 #include <stdio.h>
-#define MAXLINE 10 /*максимальный размер вводимой строки*/
+#define MAXLINE 10 //maximum input line
 
-int get_line(char s[], int lim);
+int get_line(char line[], int maxline);
 void copy(char to[], char from[]);
 
-/*печать самой длинной строки*/
+//print longest input line
 int main()
 {
-    int len; /*длина текущей строки*/
-    int tmp; //длина части строки
-    int max; /*длина максимальной из просмотренных строк*/
-    char line[MAXLINE]; /*текущая строка*/
-    char longest[MAXLINE];/*самая длинная строка*/
-
+    int len; //current line length
+    int max; //maximum length seen so far
+    char line[MAXLINE]; //current input line
+    char longest[MAXLINE]; //longest line saved here
 
     max = 0;
-    len = 0;
-     while ((tmp = get_line(line, MAXLINE)) > 0) {
-         len += tmp;
-         if (tmp != MAXLINE-1) {
-             if (len > max) {
-                 max = len;
-                 copy(longest, line);
-             }
-             len = 0;
-         }
-     }
-    if (max > 0) /*была ли хоть одна строка?*/
+    while ((len = get_line(line, MAXLINE)) > 0)
+        if (len > max) {
+            max = len;
+            copy(longest, line);
+        }
+    if (max > 0) //there was a line
         printf("%d: %s", max, longest);
     return 0;
 }
 
-/*getline: читает строку в s, возвращает длину*/
+//getline: read a line into s, return length
 int get_line(char s[], int lim)
 {
-    int c, i;
+    int c, i, j;
 
-    for (i = 0;  i < lim-1 && (c = getchar()) != EOF && c != '\n'; ++i)
-        s[i] = c;
-
-
+    for (j=i=0; (c=getchar())!=EOF && c!='\n'; ++i)
+        if (i < lim-2) {
+            s[j] = c;
+            ++j;
+        }
     if (c == '\n') {
-        s[i] = c;
-        ++i;
+        s[j] = c;
+        ++j;
     }
 
-    s[i] = '\0';
+    s[j] = '\0';
     return i;
 }
 
-/*copy: копирует из 'from' в 'to'; to достаточно большой*/
+// copy: copy 'from' into 'to'; assume to is big enough
 void copy(char to[], char from[])
 {
     int i;
 
     i = 0;
-    while ((to[i] = from [i]) != '\0')
+    while ((to[i] = from[i]) != '\0')
         ++i;
 }
