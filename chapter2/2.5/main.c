@@ -4,7 +4,7 @@
 //void squeeze(char s1[], char s2[]);
 int any(char s1[], char s2[]);
 void get_line(char s[], int lim);
-
+//test
 int main()
 {
     int c, i, lim;
